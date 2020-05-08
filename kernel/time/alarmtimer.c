@@ -57,6 +57,7 @@ static struct rtc_timer		rtctimer;
 static struct rtc_device	*rtcdev;
 static DEFINE_SPINLOCK(rtcdev_lock);
 
+
 static void alarmtimer_triggered_func(void *p)
 {
 	struct rtc_device *rtc = rtcdev;
@@ -127,6 +128,7 @@ static void alarmtimer_rtc_remove_device(struct device *dev,
 
 static inline void alarmtimer_rtc_timer_init(void)
 {
+
 	rtc_timer_init(&rtctimer, NULL, NULL);
 }
 
@@ -154,6 +156,7 @@ static inline int alarmtimer_rtc_interface_setup(void) { return 0; }
 static inline void alarmtimer_rtc_interface_remove(void) { }
 static inline void alarmtimer_rtc_timer_init(void) { }
 #endif
+
 
 /**
  * alarmtimer_enqueue - Adds an alarm timer to an alarm_base timerqueue
@@ -984,8 +987,9 @@ static int __init alarmtimer_init(void)
 		goto out_drv;
 	}
 	ws = wakeup_source_register("alarmtimer");
-	return 0;
 
+
+	return 0;
 out_drv:
 	platform_driver_unregister(&alarmtimer_driver);
 out_if:
