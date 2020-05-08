@@ -142,6 +142,7 @@ static int led_gpio_flash_probe(struct platform_device *pdev)
 		pr_err("%s:failed to get pinctrl\n", __func__);
 		return PTR_ERR(flash_led->pinctrl);
 	}
+	printk(KERN_DEBUG "led_gpio_flash_probe 022 rc = %d,flash_led->pinctrl = %p\n",rc,flash_led->pinctrl);
 
 	flash_led->gpio_state_default = pinctrl_lookup_state(flash_led->pinctrl,
 		"flash_default");
@@ -270,13 +271,16 @@ static int led_gpio_flash_probe(struct platform_device *pdev)
 	flash_led->cdev.brightness_get = led_gpio_brightness_get;
 
 	rc = led_classdev_register(&pdev->dev, &flash_led->cdev);
+	printk(KERN_DEBUG "to register led dev. rc = %d\n",rc);
 	if (rc) {
 		dev_err(&pdev->dev, "%s: Failed to register led dev. rc = %d\n",
 			__func__, rc);
 		goto error;
 	}
+	pr_err("%s:probe successfully!\n", __func__);
+	printk(KERN_DEBUG "leds-msm-gpio-flash probe successfully!\n");
 	return 0;
-
+	printk(KERN_DEBUG "probe successfully!\n");
 error:
 	if (IS_ERR(flash_led->pinctrl))
 		devm_pinctrl_put(flash_led->pinctrl);
